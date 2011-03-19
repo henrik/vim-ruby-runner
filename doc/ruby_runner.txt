@@ -1,0 +1,65 @@
+*ruby_runner.txt*   Plugin to execute Ruby code from one buffer into another.
+
+================================================================================
+ABOUT                                                          *RubyRunnerAbout*
+
+By Henrik Nyh 2011-03-19 under the MIT license.
+Source available on GitHub: http://github.com/henrik/vim-ruby-runner
+
+================================================================================
+USAGE                                                               *RubyRunner*
+
+:RunRuby                                                              *:RunRuby*
+
+    Executes the contents of the current buffer (which may be unsaved) as
+    Ruby code and outputs the results into a new buffer.
+
+By default, |:RunRuby| is bound to <C-r> for buffers with a ruby filetype.
+
+The output buffer gains focus, and you can use <C-r> again to close it.
+You can also close it with q and the ordinary commands like |ZZ| and |:q|.
+
+If you hold shift, <C-R> will keep focus in the input buffer. If you're in
+input mode, you'll even stay in input mode. So you can keep hitting <C-R>
+as you type, any time you have valid Ruby code.
+
+One and the same output buffer is reused per tab page. This implies that you can
+move the buffer around (e.g. change to a vertical split) and expect future
+output to go to the same place as long as you don't close the output buffer.
+
+================================================================================
+CONFIGURATION                                          *RubyRunnerConfiguration*
+
+This goes in ~/.vimrc.
+
+To more easily set a ruby filetype (with ":FR"):
+
+    command! FR set filetype=ruby
+
+If you don't like the default mappings, define your own and the default ones
+will not be added. Adapt these to your taste:
+
+  if has("autocmd") && has("gui_macvim")
+
+    " Unshifted
+    au FileType ruby map  <buffer> <D-r>      :RunRuby<CR>
+    au FileType ruby imap <buffer> <D-r> <Esc>:RunRuby<CR>
+
+    " Shifted
+    au FileType ruby map  <buffer> <D-R>      :RunRuby<CR> <C-w>w
+    au FileType ruby imap <buffer> <D-R> <Esc>:RunRuby<CR> <C-w>wa
+
+    " Close output buffer
+    au FileType ruby-runner map <buffer> <D-r> ZZ
+
+  endif
+
+================================================================================
+CAVEATS                                                      *RubyRunnerCaveats*
+
+Requires MacVim with autocmd support for the default mappings to be defined.
+
+Script execution does not wait for `gets`. The value of any `gets` will be nil.
+
+Vim will be unresponsive while the script executes, and will only show the
+output all at once after completion.
