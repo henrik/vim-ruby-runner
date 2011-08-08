@@ -2,7 +2,8 @@ if exists("g:loaded_RubyRunner")
   finish
 endif
 let g:loaded_RubyRunner = 1
-
+let g:RubyRunner_key = '<Leader>r'
+let g:RubyRunner_keep_focus_key = '<Leader>R'
 
 function! s:RunRuby()
   cd %:p:h  " Use file dir as pwd
@@ -38,18 +39,21 @@ endfunction
 
 command RunRuby call <SID>RunRuby()
 
+if has("gui_macvim")
+  let g:RubyRunner_key = '<D-r>'
+  let g:RubyRunner_keep_focus_key = '<D-R>'
+end
 
-if !hasmapto("RunRuby") && has("autocmd") && has("gui_macvim")
-
+if !hasmapto("RunRuby") && has("autocmd") && has ("gui")
   " Unshifted
-  au FileType ruby map  <buffer> <D-r>      :RunRuby<CR>
-  au FileType ruby imap <buffer> <D-r> <Esc>:RunRuby<CR>
+  exec 'au FileType ruby map  <buffer> ' . g:RubyRunner_key . '     :RunRuby<CR>'
+  exec 'au FileType ruby imap <buffer> ' . g:RubyRunner_key . ' <Esc>:RunRuby<CR>'
 
   " Shifted
-  au FileType ruby map  <buffer> <D-R>      :RunRuby<CR> <C-w>w
-  au FileType ruby imap <buffer> <D-R> <Esc>:RunRuby<CR> <C-w>wa
+  exec 'au FileType ruby map  <buffer> ' . g:RubyRunner_keep_focus_key . ' :RunRuby<CR> <C-w>w'
+  exec 'au FileType ruby imap <buffer> ' . g:RubyRunner_keep_focus_key . ' <Esc>:RunRuby<CR> <C-w>wa'
 
   " Close output buffer
-  au FileType ruby-runner map <buffer> <D-r> ZZ
+  exec 'au FileType ruby-runner map <buffer> ' . g:RubyRunner_key . ' ZZ'
 
 endif
