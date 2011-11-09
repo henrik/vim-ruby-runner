@@ -18,7 +18,10 @@ function! s:RunRuby()
     exe "keepjumps ".bufwinnr(t:rrbufnr)."wincmd W"
     exe 'normal ggdG'
   else
-    exe "keepjumps silent! new"
+    if (!exists("g:RubyRunner_open_below"))
+      let g:RubyRunner_open_below = 0
+    endif
+    exe "keepjumps silent!" . (g:RubyRunner_open_below == 1 ? " below" : "") . " new"
     let t:rrbufnr=bufnr('%')
   end
 
