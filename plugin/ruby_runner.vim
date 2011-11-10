@@ -42,7 +42,6 @@ function! s:RunRuby()
   set ft=ruby-runner
   " Make it a scratch (temporary) buffer.
   setlocal buftype=nofile bufhidden=wipe noswapfile
-  " Store the buffer number so we can reuse it.
 endfunction
 
 
