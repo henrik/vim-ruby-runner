@@ -2,8 +2,14 @@ if exists("g:loaded_RubyRunner")
   finish
 endif
 let g:loaded_RubyRunner = 1
+
 let g:RubyRunner_key = '<Leader>r'
 let g:RubyRunner_keep_focus_key = '<Leader>R'
+
+if has("gui_macvim")
+  let g:RubyRunner_key = '<D-r>'
+  let g:RubyRunner_keep_focus_key = '<D-R>'
+end
 
 function! s:RunRuby()
   cd %:p:h  " Use file dir as pwd
@@ -41,11 +47,6 @@ endfunction
 
 
 command RunRuby call <SID>RunRuby()
-
-if has("gui_macvim")
-  let g:RubyRunner_key = '<D-r>'
-  let g:RubyRunner_keep_focus_key = '<D-R>'
-end
 
 if !hasmapto("RunRuby") && has("autocmd") && has ("gui")
   " Unshifted
