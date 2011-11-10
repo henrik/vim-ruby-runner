@@ -36,23 +36,20 @@ To more easily set a ruby filetype (with ":FR"):
 
     command! FR set filetype=ruby
 
-If you don't like the default mappings, define your own and the default ones
-will not be added. Adapt these to your taste:
+If you don't like the default mappings, change them with some variation on:
 
-  if has("autocmd") && has("gui_macvim")
+    let g:RubyRunner_key = '<Leader>r'
+    let g:RubyRunner_keep_focus_key = '<Leader>R'
 
-    " Unshifted
-    au FileType ruby map  <buffer> <D-r>      :RunRuby<CR>
-    au FileType ruby imap <buffer> <D-r> <Esc>:RunRuby<CR>
+    if has("gui_macvim")
+      let g:RubyRunner_key = '<D-r>'
+      let g:RubyRunner_keep_focus_key = '<D-R>'
+    end
 
-    " Shifted
-    au FileType ruby map  <buffer> <D-R>      :RunRuby<CR> <C-w>w
-    au FileType ruby imap <buffer> <D-R> <Esc>:RunRuby<CR> <C-w>wa
+If you'd like the output buffer to open below rather than above the input
+buffer, do:
 
-    " Close output buffer
-    au FileType ruby-runner map <buffer> <D-r> ZZ
-
-  endif
+    let g:RubyRunner_open_below = 1
 
 ================================================================================
 CAVEATS                                                      *RubyRunnerCaveats*
