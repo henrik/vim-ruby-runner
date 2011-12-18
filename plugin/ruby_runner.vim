@@ -11,6 +11,10 @@ else
   let g:RubyRunner_keep_focus_key = '<Leader>R'
 end
 
+if (!exists("g:RubyRunner_open_below"))
+  let g:RubyRunner_open_below = 0
+endif
+
 let s:output_file = '/tmp/ruby_runner_output.txt'
 
 function! s:RunRuby()
@@ -24,7 +28,7 @@ function! s:RunRuby()
     exec 'keepjumps' bufwinnr(t:rrbufnr) 'wincmd W'
     exec 'normal ggdG'
   else
-    exec 'keepjumps silent! new'
+    exec 'keepjumps silent!' (g:RubyRunner_open_below == 1 ? 'below' : '') 'new'
     let t:rrbufnr=bufnr('%')
   end
 
@@ -37,7 +41,6 @@ function! s:RunRuby()
   set ft=ruby-runner
   " Make it a scratch (temporary) buffer.
   setlocal buftype=nofile bufhidden=wipe noswapfile
-  " Store the buffer number so we can reuse it.
 endfunction
 
 
