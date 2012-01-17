@@ -51,6 +51,10 @@ buffer, do:
 
     let g:RubyRunner_open_below = 1
 
+If you'd like the output buffer's window to be a different size, do:
+
+    let g:RubyRunner_window_size = 10
+
 ================================================================================
 CAVEATS                                                      *RubyRunnerCaveats*
 

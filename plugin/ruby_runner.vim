@@ -29,6 +29,9 @@ function! s:RunRuby()
     exec 'normal ggdG'
   else
     exec 'keepjumps silent!' (g:RubyRunner_open_below == 1 ? 'below' : '') 'new'
+    if (exists("g:RubyRunner_window_size"))
+      exec 'resize' g:RubyRunner_window_size
+    endif
     let t:rrbufnr=bufnr('%')
   end
 
