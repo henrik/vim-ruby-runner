@@ -18,8 +18,12 @@ endif
 let s:output_file = '/tmp/ruby_runner_output.txt'
 
 function! s:RunRuby()
+
   cd %:p:h  " Use file dir as pwd
-  exec 'silent w ! ruby >' s:output_file
+
+  " Prepend 'STDOUT.sync=true' to the script so STDOUT and STDERR appear in the correct order.
+  exec 'silent w ! sed "s/^/STDOUT.sync=true;/" | ruby >' s:output_file '2>&1'
+
   cd -  " Back to old dir
 
   " Reuse or create new buffer. Based on code in Decho
@@ -44,6 +48,7 @@ function! s:RunRuby()
   set ft=ruby-runner
   " Make it a scratch (temporary) buffer.
   setlocal buftype=nofile bufhidden=wipe noswapfile
+
 endfunction
 
 
