@@ -56,13 +56,15 @@ command! RunRuby call <SID>RunRuby()
 
 if !hasmapto('RunRuby') && has('autocmd')
 
-  " Unshifted
-  exec 'au FileType ruby map  <buffer>' g:RubyRunner_key '     :RunRuby<CR>'
-  exec 'au FileType ruby imap <buffer>' g:RubyRunner_key '<Esc>:RunRuby<CR>'
-
-  " Shifted
+  exec 'au FileType ruby map  <buffer>' g:RubyRunner_key ':RunRuby<CR>'
   exec 'au FileType ruby map  <buffer>' g:RubyRunner_keep_focus_key ':RunRuby<CR> <C-w>w'
-  exec 'au FileType ruby imap <buffer>' g:RubyRunner_keep_focus_key '<Esc>:RunRuby<CR> <C-w>wa'
+
+  " Since the GUI Vim mapping uses <D>, it makes sense to be able to run it
+  " even in insert mode. Not so with <leader> mappings.
+  if has('gui_running')
+    exec 'au FileType ruby imap <buffer>' g:RubyRunner_key '<Esc>:RunRuby<CR>'
+    exec 'au FileType ruby imap <buffer>' g:RubyRunner_keep_focus_key '<Esc>:RunRuby<CR> <C-w>wa'
+  endif
 
   " Close output buffer
   exec 'au FileType ruby-runner map <buffer>' g:RubyRunner_key 'ZZ'
