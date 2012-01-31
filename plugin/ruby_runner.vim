@@ -22,7 +22,7 @@ function! s:RunRuby()
   cd %:p:h  " Use file dir as pwd
 
   " Prepend 'STDOUT.sync=true' to the script so STDOUT and STDERR appear in the correct order.
-  exec 'silent w ! sed "s/^/STDOUT.sync=true;/" | ruby >' s:output_file '2>&1'
+  exec 'silent w ! sed "1s/^/STDOUT.sync=true;/" | ruby >' s:output_file '2>&1'
 
   cd -  " Back to old dir
 
