@@ -3,12 +3,20 @@ if exists('g:loaded_RubyRunner')
 endif
 let g:loaded_RubyRunner = 1
 
-if has('gui_running')
-  let g:RubyRunner_key = '<D-r>'
-  let g:RubyRunner_keep_focus_key = '<D-R>'
-else
-  let g:RubyRunner_key = '<Leader>r'
-  let g:RubyRunner_keep_focus_key = '<Leader>R'
+if (!exists('g:RubyRunner_key'))
+  if has('gui_running')
+    let g:RubyRunner_key = '<D-r>'
+  else
+    let g:RubyRunner_key = '<Leader>r'
+  end
+end
+
+if (!exists('g:RubyRunner_keep_focus_key'))
+  if has('gui_running')
+    let g:RubyRunner_keep_focus_key = '<D-R>'
+  else
+    let g:RubyRunner_keep_focus_key = '<Leader>R'
+  end
 end
 
 if (!exists("g:RubyRunner_open_below"))
