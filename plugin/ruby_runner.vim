@@ -39,7 +39,7 @@ function! s:RunRuby()
   " http://www.vim.org/scripts/script.php?script_id=120
   if exists('t:rrbufnr') && bufwinnr(t:rrbufnr) > 0
     exec 'keepjumps' bufwinnr(t:rrbufnr) 'wincmd W'
-    exec 'normal ggdG'
+    exec 'normal! ggdG'
   else
     exec 'keepjumps silent!' (g:RubyRunner_open_below == 1 ? 'below' : '') 'new'
     if (exists("g:RubyRunner_window_size"))
@@ -52,7 +52,7 @@ function! s:RunRuby()
   " Fix extraneous leading blank line.
   1d
   " Close on q.
-  map <buffer> q ZZ
+  noremap <buffer> q ZZ
   " Set a filetype so we can define more mappings elsewhere.
   set ft=ruby-runner
   " Make it a scratch (temporary) buffer.
@@ -65,17 +65,17 @@ command! RunRuby call <SID>RunRuby()
 
 if !hasmapto('RunRuby') && has('autocmd')
 
-  exec 'au FileType ruby map  <buffer>' g:RubyRunner_key ':RunRuby<CR>'
-  exec 'au FileType ruby map  <buffer>' g:RubyRunner_keep_focus_key ':RunRuby<CR> <C-w>w'
+  exec 'au FileType ruby noremap  <buffer>' g:RubyRunner_key ':RunRuby<CR>'
+  exec 'au FileType ruby noremap  <buffer>' g:RubyRunner_keep_focus_key ':RunRuby<CR> <C-w>w'
 
   " Since the GUI Vim mapping uses <D>, it makes sense to be able to run it
   " even in insert mode. Not so with <leader> mappings.
   if has('gui_running')
-    exec 'au FileType ruby imap <buffer>' g:RubyRunner_key '<Esc>:RunRuby<CR>'
-    exec 'au FileType ruby imap <buffer>' g:RubyRunner_keep_focus_key '<Esc>:RunRuby<CR> <C-w>wa'
+    exec 'au FileType ruby inoremap <buffer>' g:RubyRunner_key '<Esc>:RunRuby<CR>'
+    exec 'au FileType ruby inoremap <buffer>' g:RubyRunner_keep_focus_key '<Esc>:RunRuby<CR> <C-w>wa'
   endif
 
   " Close output buffer
-  exec 'au FileType ruby-runner map <buffer>' g:RubyRunner_key 'ZZ'
+  exec 'au FileType ruby-runner noremap <buffer>' g:RubyRunner_key 'ZZ'
 
 endif
