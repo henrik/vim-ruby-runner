@@ -30,7 +30,7 @@ function! s:RunRuby()
   cd %:p:h  " Use file dir as pwd
 
   " Prepend 'STDOUT.sync=true' to the script so STDOUT and STDERR appear in the correct order.
-  exec 'silent w ! sed "1s/^/STDOUT.sync=true; $:.unshift Dir.pwd;/" | ruby >' s:output_file '2>&1'
+  exec 'silent w ! sed "1s/^/STDOUT.sync=true; $:.unshift Dir.pwd; def require_relative(f); require File.join(File.dirname(caller.first), f); end;/" | ruby >' s:output_file '2>&1'
 
   cd -  " Back to old dir
 
